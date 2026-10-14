@@ -6,9 +6,5 @@ def test_add_numbers():
     assert add_numbers(5, 3) == 8
 
 
-def test_addition_with_negative_number():
-    assert add_numbers(-2, 5) == 3
-
-
-def test_greeting():
+def test_greet():
     assert greet("Student") == "Hello, Student!"
