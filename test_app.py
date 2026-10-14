@@ -1,5 +1,5 @@
 
-from app import add_numbers, greet
+from app3 import add_numbers, greet
 
 
 def test_add_numbers():
