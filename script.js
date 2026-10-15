@@ -1,17 +1,42 @@
-const boxesContainer = document.getElementById('boxes')
-const btn = document.getElementById('btn')
+const loveMe = document.querySelector('.loveMe')
+const times = document.querySelector('#times')
 
-btn.addEventListener('click', () => boxesContainer.classList.toggle('big'))
+let clickTime = 0
+let timesClicked = 0
 
-function createBoxes() {
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 4; j++) {
-      const box = document.createElement('div')
-      box.classList.add('box')
-      box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`
-      boxesContainer.appendChild(box)
+loveMe.addEventListener('click', (e) => {
+    if(clickTime === 0) {
+        clickTime = new Date().getTime()
+    } else {
+        if((new Date().getTime() - clickTime) < 800) {
+            createHeart(e)
+            clickTime = 0
+        } else {
+            clickTime = new Date().getTime()
+        }
     }
-  }
-}
+})
 
-createBoxes()
+const createHeart = (e) => {
+    const heart = document.createElement('i')
+    heart.classList.add('fas')
+    heart.classList.add('fa-heart')
+
+    const x = e.clientX
+    const y = e.clientY
+
+    const leftOffset = e.target.offsetLeft
+    const topOffset = e.target.offsetTop
+
+    const xInside = x - leftOffset
+    const yInside = y - topOffset
+
+    heart.style.top = `${yInside}px`
+    heart.style.left = `${xInside}px`
+
+    loveMe.appendChild(heart)
+
+    times.innerHTML = ++timesClicked
+
+    setTimeout(() => heart.remove(), 1000)
+}
