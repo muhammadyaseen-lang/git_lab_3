@@ -1,42 +1,39 @@
-const loveMe = document.querySelector('.loveMe')
-const times = document.querySelector('#times')
+const fill = document.querySelector('.fill')
+const empties = document.querySelectorAll('.empty')
 
-let clickTime = 0
-let timesClicked = 0
+fill.addEventListener('dragstart', dragStart)
+fill.addEventListener('dragend', dragEnd)
 
-loveMe.addEventListener('click', (e) => {
-    if(clickTime === 0) {
-        clickTime = new Date().getTime()
-    } else {
-        if((new Date().getTime() - clickTime) < 800) {
-            createHeart(e)
-            clickTime = 0
-        } else {
-            clickTime = new Date().getTime()
-        }
-    }
-})
+for(const empty of empties) {
+    empty.addEventListener('dragover', dragOver)
+    empty.addEventListener('dragenter', dragEnter)
+    empty.addEventListener('dragleave', dragLeave)
+    empty.addEventListener('drop', dragDrop)
+}
 
-const createHeart = (e) => {
-    const heart = document.createElement('i')
-    heart.classList.add('fas')
-    heart.classList.add('fa-heart')
+function dragStart() {
+    this.className += ' hold' 
+    
+}
 
-    const x = e.clientX
-    const y = e.clientY
+function dragEnd() {
+    this.className = 'fill'
+}
 
-    const leftOffset = e.target.offsetLeft
-    const topOffset = e.target.offsetTop
+function dragOver(e) {
+    e.preventDefault()
+}
 
-    const xInside = x - leftOffset
-    const yInside = y - topOffset
+function dragEnter(e) {
+    e.preventDefault()
+    this.className += ' hovered'
+}
 
-    heart.style.top = `${yInside}px`
-    heart.style.left = `${xInside}px`
+function dragLeave() {
+    this.className = 'empty'
+}
 
-    loveMe.appendChild(heart)
-
-    times.innerHTML = ++timesClicked
-
-    setTimeout(() => heart.remove(), 1000)
+function dragDrop() {
+    this.className = 'empty'
+    this.append(fill)
 }
